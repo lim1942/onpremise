@@ -100,7 +100,22 @@ class DingTalkPlugin(CorePluginMixin, notify.NotificationPlugin):
         payload = f"{payload} #### Error: [{group.title}]({issue_link}) \n\n"
         payload = f"{payload} #### Detail: {group.message} \n\n"
         data = {
-            "title": group.title,
-            "text": payload
+            "msg_type": "post",
+            "content": {
+                "post": {
+                    "zh_cn": {
+                        "title": group.title,
+                        "content": [
+                            [
+                                {
+                                    "tag": "text",
+                                    "text": payload
+                                },
+
+                            ]
+                        ]
+                    }
+                }
+            }
         }
         requests.post(webhook, json=data)
