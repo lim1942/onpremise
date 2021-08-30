@@ -103,4 +103,4 @@ class DingTalkPlugin(CorePluginMixin, notify.NotificationPlugin):
             "title": group.title,
             "text": payload
         }
-        requests.post(webhook, json=data, headers=headers)
+        requests.post(webhook, json=data)
