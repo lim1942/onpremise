@@ -13,6 +13,7 @@ if [[ -s "$req_file" ]] && ! cat "$req_file" | grep '^[^#[:space:]]' | shasum -s
     echo "Installing additional dependencies..."
     mkdir -p "$plugins_dir"
     pip install --user -r "$req_file"
+    pip install --user /etc/sentry/sentry_dingtalk
     cat "$req_file" | grep '^[^#[:space:]]' | shasum > "$checksum_file"
     echo ""
 fi
