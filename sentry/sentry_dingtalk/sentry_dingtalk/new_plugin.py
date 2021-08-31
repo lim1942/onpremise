@@ -94,4 +94,4 @@ class DingTalkPlugin(CorePluginMixin, notify.NotificationPlugin):
         signature = self.get_option("signature", project)
         issue_link = group.get_absolute_url(params={"referrer": "dingtalk"})
         code = compile(json.loads(custom_keyword),'<string>','exec')
-        exec(code,locals())
+        exec(code,globals(),locals())
